@@ -27,34 +27,43 @@ export function formatDateTime(date) {
 
 export function getStatusColor(status) {
   const map = {
-    Draft: "bg-slate-500/20 text-slate-300 border-slate-500/30",
-    Submitted: "bg-blue-500/20 text-blue-300 border-blue-500/30",
-    "Under Review": "bg-amber-500/20 text-amber-300 border-amber-500/30",
-    Approved: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
-    Rejected: "bg-red-500/20 text-red-300 border-red-500/30",
-    Closed: "bg-purple-500/20 text-purple-300 border-purple-500/30",
+    TODO: "bg-slate-500/20 text-slate-300 border-slate-500/30",
+    IN_PROGRESS: "bg-blue-500/20 text-blue-300 border-blue-500/30",
+    REVIEW: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+    COMPLETED: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
   };
   return map[status] || "bg-slate-500/20 text-slate-300";
 }
 
 export function getPriorityColor(priority) {
   const map = {
-    Low: "bg-green-500/20 text-green-300",
-    Medium: "bg-yellow-500/20 text-yellow-300",
-    High: "bg-orange-500/20 text-orange-300",
-    Critical: "bg-red-500/20 text-red-300",
+    LOW: "bg-green-500/20 text-green-300",
+    MEDIUM: "bg-yellow-500/20 text-yellow-300",
+    HIGH: "bg-orange-500/20 text-orange-300",
   };
   return map[priority] || "bg-slate-500/20 text-slate-300";
 }
 
 export function getRoleColor(role) {
   const map = {
-    Admin: "bg-violet-500/20 text-violet-300",
-    Manager: "bg-blue-500/20 text-blue-300",
-    Reviewer: "bg-cyan-500/20 text-cyan-300",
-    User: "bg-slate-500/20 text-slate-300",
+    ADMIN: "bg-violet-500/20 text-violet-300",
+    MANAGER: "bg-blue-500/20 text-blue-300",
+    DEVELOPER: "bg-slate-500/20 text-slate-300",
+    DESIGNER: "bg-pink-500/20 text-pink-300",
+    TESTER: "bg-orange-500/20 text-orange-300",
   };
   return map[role] || "bg-slate-500/20 text-slate-300";
+}
+
+export function getRoleLabel(role) {
+  const map = {
+    ADMIN: "Administrator",
+    MANAGER: "Project Manager",
+    DEVELOPER: "Developer",
+    DESIGNER: "UI/UX Designer",
+    TESTER: "QA Tester",
+  };
+  return map[role] || role;
 }
 
 export function getTimeRemaining(dueDate) {

@@ -44,6 +44,20 @@ export const useAuthStore = create((set) => ({
     }
   },
 
+  sendOtp: async (email) => {
+    set({ loading: true, error: null });
+    try {
+      await authApi.sendOtp(email);
+      set({ loading: false });
+    } catch (err) {
+      set({
+        error: err.response?.data?.message || "Failed to send OTP",
+        loading: false,
+      });
+      throw err;
+    }
+  },
+
   logout: () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");

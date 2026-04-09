@@ -3,22 +3,25 @@ import { io } from "socket.io-client";
 
 const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:5000";
 
-export function useSocket(tenantId, onIssueUpdate) {
+export function useSocket(tenantId, onEvent, eventName = "issueUpdated") {
   const socketRef = useRef(null);
 
   useEffect(() => {
     if (!tenantId) return;
-    socketRef.current = io(SOCKET_URL);
-    socketRef.current.emit("joinTenant", tenantId);
+    
+    const socket = io(SOCKET_URL);
+    socketRef.current = socket;
 
-    socketRef.current.on("issueUpdated", (data) => {
-      if (onIssueUpdate) onIssueUpdate(data);
-    });
+    socket.emit("joinTenant", tenantId);
+
+    if (onEvent) {
+      socket.on(eventName, onEvent);
+    }
 
     return () => {
-      if (socketRef.current) socketRef.current.disconnect();
+      socket.disconnect();
     };
-  }, [tenantId]);
+  }, [tenantId, eventName]);
 
   return socketRef.current;
 }

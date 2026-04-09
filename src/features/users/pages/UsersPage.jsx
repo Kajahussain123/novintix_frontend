@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
 import { userApi } from "../api/userApi";
-import { getRoleColor, formatDate } from "../../../shared/lib/utils";
+import { getRoleColor, formatDate, getRoleLabel } from "../../../shared/lib/utils";
 import { Users, UserPlus, Loader2, X } from "lucide-react";
 import { toast } from "sonner";
 
-const ROLES = ["Admin", "Manager", "Reviewer", "User"];
+const ROLES = [
+  { value: "ADMIN", label: "Administrator" },
+  { value: "MANAGER", label: "Project Manager" },
+  { value: "DEVELOPER", label: "Developer" },
+  { value: "DESIGNER", label: "UI/UX Designer" },
+  { value: "TESTER", label: "QA Tester" },
+];
 
 function InviteModal({ onClose, onSuccess }) {
   const [form, setForm] = useState({
     username: "",
     email: "",
     password: "",
-    role: "User",
+    role: "DEVELOPER",
   });
   const [loading, setLoading] = useState(false);
 
@@ -86,7 +92,7 @@ function InviteModal({ onClose, onSuccess }) {
               className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition"
             >
               {ROLES.map((r) => (
-                <option key={r}>{r}</option>
+                <option key={r.value} value={r.value}>{r.label}</option>
               ))}
             </select>
           </div>
@@ -189,7 +195,7 @@ export default function UsersPage() {
                     <span
                       className={`px-2 py-0.5 rounded-md text-xs font-medium ${getRoleColor(u.role)}`}
                     >
-                      {u.role}
+                      {getRoleLabel(u.role)}
                     </span>
                   </td>
                   <td className="px-4 py-4 text-gray-400 hidden md:table-cell">
@@ -204,7 +210,7 @@ export default function UsersPage() {
                       className="bg-gray-800 border border-gray-700 text-gray-300 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition"
                     >
                       {ROLES.map((r) => (
-                        <option key={r}>{r}</option>
+                        <option key={r.value} value={r.value}>{r.label}</option>
                       ))}
                     </select>
                   </td>

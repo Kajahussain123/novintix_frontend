@@ -3,27 +3,33 @@ import { useAuthStore } from "../../../features/auth/store/authStore";
 import { useUiStore } from "../../store/uiStore";
 import {
   LayoutDashboard,
-  AlertTriangle,
+  CheckSquare,
+  Briefcase,
   GitBranch,
   Users,
   Shield,
   LogOut,
   ChevronLeft,
   ChevronRight,
+  Zap
 } from "lucide-react";
 import { cn } from "../../lib/utils";
 
 const navItems = [
   { to: "/", icon: LayoutDashboard, label: "Dashboard" },
-  { to: "/issues", icon: AlertTriangle, label: "Issues" },
+  { to: "/projects", icon: Briefcase, label: "Projects", roles: ["ADMIN", "MANAGER", "DEVELOPER", "DESIGNER", "TESTER"] },
+  { to: "/tasks", icon: CheckSquare, label: "Tasks" },
   {
     to: "/workflow",
     icon: GitBranch,
-    label: "Workflow Config",
-    roles: ["Admin"],
+    label: "Workflow",
+    roles: ["ADMIN", "MANAGER"],
   },
-  { to: "/users", icon: Users, label: "Users", roles: ["Admin", "Manager"] },
+  { to: "/users", icon: Users, label: "Users", roles: ["ADMIN", "MANAGER"] },
+  { to: "/api-lab", icon: Zap, label: "API Lab", roles: ["ADMIN", "MANAGER", "DEVELOPER"] },
 ];
+
+import NotificationCenter from "../notifications/NotificationCenter";
 
 export default function Sidebar() {
   const { pathname } = useLocation();
@@ -43,23 +49,28 @@ export default function Sidebar() {
   return (
     <aside
       className={cn(
-        "relative flex flex-col bg-gray-900 border-r border-gray-800 transition-all duration-300 min-h-screen",
+        "sticky top-0 h-screen z-40 flex flex-col bg-gray-900 border-r border-gray-800 transition-all duration-300",
         sidebarOpen ? "w-60" : "w-16",
       )}
     >
-      {/* Logo */}
-      <div className="flex items-center gap-3 px-4 py-5 border-b border-gray-800">
-        <div className="p-1.5 bg-cyan-500/10 rounded-lg border border-cyan-500/20 shrink-0">
-          <Shield className="w-5 h-5 text-cyan-400" />
-        </div>
-        {sidebarOpen && (
-          <div className="overflow-hidden">
-            <p className="text-white font-bold text-sm leading-none">
-              Novintix
-            </p>
-            <p className="text-gray-500 text-xs mt-0.5">{user?.role}</p>
+      {/* Logo Area */}
+      <div className="flex items-center justify-between px-4 py-5 border-b border-gray-800">
+        <div className="flex items-center gap-3 overflow-hidden">
+          <div className="p-1.5 bg-cyan-500/10 rounded-lg border border-cyan-500/20 shrink-0">
+            <Shield className="w-5 h-5 text-cyan-400" />
           </div>
-        )}
+          {sidebarOpen && (
+            <div className="overflow-hidden">
+              <p className="text-white font-bold text-sm leading-none">
+                Novintix
+              </p>
+              <p className="text-gray-500 text-[10px] mt-1 uppercase font-bold tracking-widest">{user?.role}</p>
+            </div>
+          )}
+        </div>
+        
+        {/* Notification Bell */}
+        <NotificationCenter />
       </div>
 
       <button

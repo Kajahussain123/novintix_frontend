@@ -5,10 +5,13 @@ import { ProtectedRoute } from "./shared/components/ProtectedRoute";
 import LoginPage from "./features/auth/pages/LoginPage";
 import RegisterPage from "./features/auth/pages/RegisterPage";
 import DashboardPage from "./features/dashboard/pages/DashboardPage";
-import IssuesPage from "./features/issues/pages/IssuesPage";
-import IssueDetailPage from "./features/issues/pages/IssueDetailPage";
+import ProjectsPage from "./features/projects/pages/ProjectsPage";
+import ProjectDetailPage from "./features/projects/pages/ProjectDetailPage";
+import TasksPage from "./features/tasks/pages/TasksPage";
+import TaskDetailPage from "./features/tasks/pages/TaskDetailPage";
 import WorkflowConfigPage from "./features/workflow/pages/WorkflowConfigPage";
 import UsersPage from "./features/users/pages/UsersPage";
+import ApiTesterPage from "./features/tester/pages/ApiTesterPage";
 
 export default function App() {
   return (
@@ -27,12 +30,28 @@ export default function App() {
           }
         >
           <Route index element={<DashboardPage />} />
-          <Route path="issues" element={<IssuesPage />} />
-          <Route path="issues/:id" element={<IssueDetailPage />} />
+            <Route
+            path="projects"
+            element={
+              <ProtectedRoute roles={["ADMIN", "MANAGER", "DEVELOPER", "DESIGNER", "TESTER"]}>
+                <ProjectsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="projects/:id"
+            element={
+              <ProtectedRoute roles={["ADMIN", "MANAGER", "DEVELOPER", "DESIGNER", "TESTER"]}>
+                <ProjectDetailPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="tasks" element={<TasksPage />} />
+          <Route path="tasks/:id" element={<TaskDetailPage />} />
           <Route
             path="workflow"
             element={
-              <ProtectedRoute roles={["Admin"]}>
+              <ProtectedRoute roles={["ADMIN", "MANAGER"]}>
                 <WorkflowConfigPage />
               </ProtectedRoute>
             }
@@ -40,8 +59,16 @@ export default function App() {
           <Route
             path="users"
             element={
-              <ProtectedRoute roles={["Admin", "Manager"]}>
+              <ProtectedRoute roles={["ADMIN", "MANAGER"]}>
                 <UsersPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="api-lab"
+            element={
+              <ProtectedRoute roles={["ADMIN", "MANAGER", "DEVELOPER"]}>
+                <ApiTesterPage />
               </ProtectedRoute>
             }
           />
